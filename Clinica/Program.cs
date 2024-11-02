@@ -1,11 +1,14 @@
 using Clinica.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<BDContext>();
+// Configurar la cadena de conexión y agregar el contexto de la base de datos
+builder.Services.AddDbContext<BDContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
