@@ -103,5 +103,25 @@ public partial class BDContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    //Este es RECETA MEDICAMENTO y lo voy a modificar es ON MODEL CREATING PARTIAL
+    // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    static void OnModelCreatingPartial(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<RecetaMedicamento>(entity =>
+        {
+            entity.HasKey(e => new { e.RecetaId, e.MedicamentoId }); // Define la clave compuesta
+            entity.HasOne(e => e.Receta)
+           .WithMany(r => r.RecetaMedicamento)
+           .HasForeignKey(e => e.RecetaId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Medicamento)
+                .WithMany(m => m.RecetaMedicamento)
+                .HasForeignKey(e => e.MedicamentoId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+    }
+
 }
+

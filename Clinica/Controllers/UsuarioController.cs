@@ -187,8 +187,18 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,IdRol,Nombre,Apellido,Login,Password,Estatus,FechaRegistro")] Usuario usuario)
         {
+            ModelState.Remove("IdRolNavigation");
             if (ModelState.IsValid)
             {
+                foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(modelError.ErrorMessage);  // O usa alguna forma de logging
+                }
+
+                // Encriptar la contraseña usando MD5 antes de guardar el usuario
+                usuario.Password = EncriptarMD5(usuario.Password);
+
+
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -226,6 +236,7 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
+            ModelState.Remove("IdRolNavigation");
             if (ModelState.IsValid)
             {
                 try

@@ -46,7 +46,14 @@
                 <a asp-action="Edit" asp-route-id="@item.RecetaId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.RecetaId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.RecetaId">Delete</a>
+
+                    <!-- Botón para imprimir la receta -->
+                    <a asp-controller="Receta" asp-action="RecetaView" class="btn btn-primary">
+                        Imprimir Receta
+                    </a>
             </td>
+              
+
         </tr>
 }
     </tbody>
