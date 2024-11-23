@@ -1,45 +1,13 @@
-﻿@model Clinica.Models.Receta
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" href="~/css/print.css"/>
-    <title>Receta Médica</title>
-</head>
-<body>
-    <h1>Receta Médica</h1>
-    <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
-    <p><strong>Paciente:</strong> @Model.Paciente?.Nombre @Model.Paciente?.Apellido</p>
-    <p><strong>Médico:</strong> @Model.IdUsuarioNavigation?.Nombre @Model.IdUsuarioNavigation?.Apellido</p>
-    <p><strong>Diagnóstico:</strong> @Model.Diagnostico?.Descripcion</p>
-
-    <h3>Medicamentos</h3>
-    @if (Model.RecetaMedicamento != null && Model.RecetaMedicamento.Any())
-    {
-        <table>
-            <thead>
-                <tr>
-                    <th>Medicamento</th>
-                    <th>Cantidad</th>
-                    <th>Instrucciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var medicamento in Model.RecetaMedicamento)
-                {
-                    <tr>
-                        <td>@medicamento.Medicamento?.Nombre</td>
-                        <td>@medicamento.Cantidad</td>
-                        <td>@medicamento.Instrucciones</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No hay medicamentos recetados.</p>
-    }
-</body>
-</html>
+﻿@foreach (var receta in Model.Recetas)
+{
+    <tr>
+        <td>@receta.Id</td>
+        <td>@receta.Fecha</td>
+        <td>@receta.Paciente</td>
+        <td>
+            <a asp-controller="Receta" asp-action="ImprimirReceta" asp-route-id="@receta.Id" class="btn btn-primary">
+                Imprimir PDF
+            </a>
+        </td>
+    </tr>
+}
