@@ -183,7 +183,7 @@ namespace Clinica.Controllers
 
 
         //Método RecetaView
-        public IActionResult RecetaView(int RecetaId)
+        public IActionResult RecetaView(int id)
         {
             var receta = _context.Receta
                 .Include(r => r.Paciente)
@@ -191,7 +191,7 @@ namespace Clinica.Controllers
                 .Include(r => r.Diagnostico)
                 .Include(r => r.RecetaMedicamento)
                     .ThenInclude(rm => rm.Medicamento)
-                .FirstOrDefault(r => r.RecetaId == RecetaId);
+                .FirstOrDefault(r => r.RecetaId == id);
 
             if (receta == null)
             {

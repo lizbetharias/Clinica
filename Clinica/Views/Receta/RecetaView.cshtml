@@ -9,9 +9,14 @@
 
 <form asp-controller="Receta" asp-action="RecetaView">
 
-    <input name="RecetaView" Id="@Model.RecetaId></input>
+  <div class="card" style="width: 18rem;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">@Model.Fecha</li>
+    <li class="list-group-item">@Model.Paciente.Nombre</li>
+    <li class="list-group-item">@Model.Paciente.Apellido</li>
+  </ul>
+</div>
 
-    <!-- Sección de la tabla para listar recetas -->
     <div class="col-md-8">
         <h4>Listado de Recetas</h4>
         <hr />
