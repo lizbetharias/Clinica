@@ -1,13 +1,55 @@
-﻿@foreach (var receta in Model.Recetas)
-{
-    <tr>
-        <td>@receta.Id</td>
-        <td>@receta.Fecha</td>
-        <td>@receta.Paciente</td>
-        <td>
-            <a asp-controller="Receta" asp-action="ImprimirReceta" asp-route-id="@receta.Id" class="btn btn-primary">
-                Imprimir PDF
-            </a>
-        </td>
-    </tr>
+﻿@model Clinica.Models.Receta
+
+@{
+    ViewData["Title"] = "Gestión de Recetas";
+}
+
+<h1>Gestión de Recetas</h1>
+
+
+<form asp-controller="Receta" asp-action="RecetaView">
+
+    <input name="RecetaView" Id="@Model.RecetaId></input>
+
+    <!-- Sección de la tabla para listar recetas -->
+    <div class="col-md-8">
+        <h4>Listado de Recetas</h4>
+        <hr />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Paciente</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var receta in Model.RecetaMedicamento)
+                {
+                    <tr>
+                        <td>@receta.Receta.RecetaId</td>
+                        <td>@receta.Receta.Fecha</td>
+                        <td>@receta.Receta.Paciente</td>
+                        <td>
+                            <a  class="btn btn-primary">
+                                Imprimir PDF
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver al listado</a>
+</div>
+ </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

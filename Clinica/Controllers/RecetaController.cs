@@ -1,39 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clinica.Models;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Drawing.Printing;
+using DinkToPdf;
 
 namespace Clinica.Controllers
 {
     public class RecetaController : Controller
     {
+        private readonly ICompositeViewEngine _viewEngine;
         private readonly BDContext _context;
 
-        // Constructor: Inyección de dependencia para el contexto de base de datos
-        public RecetaController(BDContext context)
+        public RecetaController(BDContext context, ICompositeViewEngine viewEngine)
         {
             _context = context;
+            _viewEngine = viewEngine;
         }
 
-        // GET: Receta (Vista principal con la lista de recetas)
+        // GET: Receta
         public async Task<IActionResult> Index()
         {
-            var recetas = _context.Receta
-                .Include(r => r.Diagnostico)
-                .Include(r => r.Usuario) // Relación corregida
-                .Include(r => r.Paciente);
-            return View(await recetas.ToListAsync());
+            var bDContext = _context.Receta.Include(r => r.Diagnostico).Include(r => r.IdUsuarioNavigation).Include(r => r.Paciente);
+            return View(await bDContext.ToListAsync());
         }
 
-        // GET: Receta/Details/5 (Ver detalles de una receta específica)
+        // GET: Receta/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,10 +41,9 @@ namespace Clinica.Controllers
 
             var receta = await _context.Receta
                 .Include(r => r.Diagnostico)
-                .Include(r => r.Usuario)
+                .Include(r => r.IdUsuarioNavigation)
                 .Include(r => r.Paciente)
                 .FirstOrDefaultAsync(m => m.RecetaId == id);
-
             if (receta == null)
             {
                 return NotFound();
@@ -55,36 +52,36 @@ namespace Clinica.Controllers
             return View(receta);
         }
 
-        // GET: Receta/Create (Formulario para crear una nueva receta)
+        // GET: Receta/Create
         public IActionResult Create()
         {
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion");
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre");
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id");
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId");
             return View();
         }
 
-        // POST: Receta/Create (Guardar la nueva receta en la base de datos)
+        // POST: Receta/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RecetaId,Fecha,PacienteId,IdUsuario,DiagnosticoId")] Receta receta)
         {
-            ModelState.Remove("Usuario"); // Para evitar validaciones redundantes
+            ModelState.Remove("IdUsuarioNavigation");
             if (ModelState.IsValid)
             {
                 _context.Add(receta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            // Volver a cargar las listas en caso de que haya un error
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", receta.PacienteId);
             return View(receta);
         }
 
-        // GET: Receta/Edit/5 (Formulario para editar una receta existente)
+        // GET: Receta/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,14 +94,15 @@ namespace Clinica.Controllers
             {
                 return NotFound();
             }
-
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", receta.PacienteId);
             return View(receta);
         }
 
-        // POST: Receta/Edit/5 (Guardar los cambios en la base de datos)
+        // POST: Receta/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("RecetaId,Fecha,PacienteId,IdUsuario,DiagnosticoId")] Receta receta)
@@ -114,7 +112,7 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
-            ModelState.Remove("Usuario");
+            ModelState.Remove("IdUsuarioNavigation");
             if (ModelState.IsValid)
             {
                 try
@@ -135,14 +133,13 @@ namespace Clinica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", receta.PacienteId);
             return View(receta);
         }
 
-        // GET: Receta/Delete/5 (Confirmación para eliminar una receta)
+        // GET: Receta/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,10 +149,9 @@ namespace Clinica.Controllers
 
             var receta = await _context.Receta
                 .Include(r => r.Diagnostico)
-                .Include(r => r.Usuario)
+                .Include(r => r.IdUsuarioNavigation)
                 .Include(r => r.Paciente)
                 .FirstOrDefaultAsync(m => m.RecetaId == id);
-
             if (receta == null)
             {
                 return NotFound();
@@ -164,7 +160,7 @@ namespace Clinica.Controllers
             return View(receta);
         }
 
-        // POST: Receta/Delete/5 (Eliminar la receta confirmada)
+        // POST: Receta/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -173,74 +169,76 @@ namespace Clinica.Controllers
             if (receta != null)
             {
                 _context.Receta.Remove(receta);
-                await _context.SaveChangesAsync();
             }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // Método privado para verificar si una receta existe
         private bool RecetaExists(int id)
         {
             return _context.Receta.Any(e => e.RecetaId == id);
         }
 
-        // GET: Método para generar el PDF de una receta médica
-        [HttpGet]
-        public IActionResult ImprimirReceta(int recetaid)
+
+
+        //Método RecetaView
+        public IActionResult RecetaView(int RecetaId)
         {
             var receta = _context.Receta
                 .Include(r => r.Paciente)
-                .Include(r => r.Usuario)
+                .Include(r => r.IdUsuarioNavigation)
                 .Include(r => r.Diagnostico)
                 .Include(r => r.RecetaMedicamento)
-                .ThenInclude(m => m.Medicamento)
-                .Where(r => r.RecetaId == recetaid)
-                .Select(r => new
-                {
-                    Paciente = r.Paciente.Nombre,
-                    Medico = r.Usuario.Nombre,
-                    Fecha = r.Fecha,
-                    Diagnostico = r.Diagnostico.Descripcion,
-                    Medicamentos = r.RecetaMedicamento.Select(m => new
-                    {
-                        Nombre = m.Medicamento.Nombre,
-                        Dosis = m.Dosis
-                    }).ToList(),
-                    Observaciones = r.Observaciones
-                })
-                .FirstOrDefault();
+                    .ThenInclude(rm => rm.Medicamento)
+                .FirstOrDefault(r => r.RecetaId == RecetaId);
 
             if (receta == null)
             {
-                return NotFound("Receta no encontrada");
+                return NotFound();
             }
 
-            var stream = new MemoryStream();
-            using (var writer = new PdfWriter(stream))
+            // Depuración del modelo
+            if (receta.Paciente == null)
             {
-                var pdf = new PdfDocument(writer);
-                var document = new Document(pdf);
-
-                document.Add(new Paragraph("Dispensario \"Cristo Crucificado\"").SetBold().SetFontSize(16));
-                document.Add(new Paragraph("Receta Médica").SetFontSize(14));
-                document.Add(new Paragraph($"Fecha: {receta.Fecha:dd/MM/yyyy}"));
-                document.Add(new Paragraph($"Paciente: {receta.Paciente}"));
-                document.Add(new Paragraph($"Médico: {receta.Medico}"));
-                document.Add(new Paragraph($"Diagnóstico: {receta.Diagnostico}"));
-                document.Add(new Paragraph("Medicamentos:"));
-
-                foreach (var medicamento in receta.Medicamentos)
-                {
-                    document.Add(new Paragraph($"- {medicamento.Nombre}: {medicamento.Dosis}"));
-                }
-
-                document.Add(new Paragraph($"Observaciones: {receta.Observaciones}"));
-
-                document.Close();
+                Console.WriteLine("Paciente no encontrado");
             }
 
-            stream.Position = 0;
-            return File(stream.ToArray(), "application/pdf", "RecetaMedica.pdf");
+            if (receta.IdUsuarioNavigation == null)
+            {
+                Console.WriteLine("Médico no encontrado");
+            }
+
+            if (receta.Diagnostico == null)
+            {
+                Console.WriteLine("Diagnóstico no encontrado");
+            }
+
+            if (!receta.RecetaMedicamento.Any())
+            {
+                Console.WriteLine("No se encontraron medicamentos recetados");
+            }
+
+            return View(receta);
         }
+
+        [HttpGet]
+        public JsonResult FiltrarMedicamentos(string term)
+        {
+            var medicamentosFiltrados = _context.Medicamento
+                .Where(p => p.Nombre.Contains(term))
+                .Select(p => new
+                {
+                    id = p.MedicamentoId,
+                    nombre = p.Nombre,
+                    precio = p.Dosis
+                })
+                .ToList();
+
+            return Json(medicamentosFiltrados);
+        }
+
     }
 }
+
+

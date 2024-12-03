@@ -152,5 +152,18 @@ namespace Clinica.Controllers
         {
             return _context.Medicamento.Any(e => e.MedicamentoId == id);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> FiltrarPorNombre(string term)
+        {
+            var medicamentos = await _context.Medicamento
+                .Where(m => m.Nombre.Contains(term))
+                .Select(m => new { m.MedicamentoId, m.Nombre, m.Dosis })
+                .ToListAsync();
+
+            return Json(medicamentos);
+        }
+
     }
 }
