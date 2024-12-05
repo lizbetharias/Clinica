@@ -55,9 +55,9 @@ namespace Clinica.Controllers
         // GET: Receta/Create
         public IActionResult Create()
         {
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId");
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id");
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId");
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre");
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
             return View();
         }
 
