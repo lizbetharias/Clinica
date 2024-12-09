@@ -33,15 +33,16 @@
                 <select asp-for="DiagnosticoId" class="form-control" asp-items="ViewBag.DiagnosticoId"></select>
                 <span asp-validation-for="DiagnosticoId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index">Regresar</a>
+    <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
 </div>
 
 @section Scripts {

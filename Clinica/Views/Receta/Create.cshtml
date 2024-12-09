@@ -29,19 +29,32 @@
                 <label asp-for="DiagnosticoId" class="control-label"></label>
                 <select asp-for="DiagnosticoId" class ="form-control" asp-items="ViewBag.DiagnosticoId"></select>
             </div>
+            <br />
             <!-- es para seleccionar que los demas campos de las tablas -->
-            <div id="medicamentosContainer">
-                <div style="margin-bottom: 10px;">
-                    <!-- Campo de búsqueda -->
-                    <div>
-                        <input type="text" id="buscarMedicamento" placeholder="Buscar medicamentos..." />
-                        <select id="selectMedicamento">
-                            <option value="">Seleccione un medicamento</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
+       
+            <!-- Lista Temporal de Medicamentos-->
+            <h4>Seleccione los Medicamentos</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Seleccionar</th>
+                        <th>Nombre</th>
+                        <th>Dosis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var medicamento in ViewBag.Medicamentos)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="MedicamentosSeleccionados" value="@medicamento.MedicamentoId" />
+                            </td>
+                            <td>@medicamento.Nombre</td>
+                            <td>@medicamento.Dosis</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -50,7 +63,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Regresar</a>
+    <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
 </div>
 
 @section Scripts {

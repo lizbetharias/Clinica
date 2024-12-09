@@ -9,7 +9,12 @@ using Clinica.Models;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Drawing.Printing;
-using DinkToPdf;
+using System.Reflection.Metadata;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Document = System.Reflection.Metadata.Document;
 
 namespace Clinica.Controllers
 {
@@ -55,6 +60,9 @@ namespace Clinica.Controllers
         // GET: Receta/Create
         public IActionResult Create()
         {
+            // Cargar medicamentos desde la base de datos
+            ViewBag.Medicamentos = _context.Medicamento.ToList();
+
             ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion");
             ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre");
             ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
@@ -66,18 +74,38 @@ namespace Clinica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecetaId,Fecha,PacienteId,IdUsuario,DiagnosticoId")] Receta receta)
+        public async Task<IActionResult> Create([Bind("RecetaId,Fecha,PacienteId,IdUsuario,DiagnosticoId")] Receta receta, List<int> MedicamentosSeleccionados)
         {
             ModelState.Remove("IdUsuarioNavigation");
             if (ModelState.IsValid)
             {
+                // Guardar la receta
                 _context.Add(receta);
                 await _context.SaveChangesAsync();
+
+                // Asociar los medicamentos seleccionados con la receta
+                if (MedicamentosSeleccionados != null && MedicamentosSeleccionados.Any())
+                {
+                    foreach (var medicamentoId in MedicamentosSeleccionados)
+                    {
+                        var recetaMedicamento = new RecetaMedicamento
+                        {
+                            RecetaId = receta.RecetaId,
+                            MedicamentoId = medicamentoId
+                        };
+                        _context.RecetaMedicamento.Add(recetaMedicamento);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId", receta.DiagnosticoId);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", receta.IdUsuario);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", receta.PacienteId);
+
+            // Recargar dropdowns y lista de medicamentos en caso de error
+            ViewBag.Medicamentos = _context.Medicamento.ToList();
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
             return View(receta);
         }
 
@@ -237,7 +265,6 @@ namespace Clinica.Controllers
 
             return Json(medicamentosFiltrados);
         }
-
     }
 }
 

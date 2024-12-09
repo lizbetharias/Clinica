@@ -4,11 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Receta</h1>
 
 <p>
-    <a asp-action="Create">Crear Nueva Receta</a>
+    <a asp-action="Create">
+        <button class="btn btn-primary">Crear Nueva Receta</button>
+    </a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -38,23 +41,19 @@
                 @Html.DisplayFor(modelItem => item.Diagnostico.DiagnosticoId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.Id)
+                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Paciente.PacienteId)
+                @Html.DisplayFor(modelItem => item.Paciente.Nombre)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.RecetaId">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.RecetaId">Detalle</a>
-                    <a asp-action="Delete" asp-route-id="@item.RecetaId">Eliminar</a>
-
-
-                    <a asp-action="RecetaView"  asp-route-id="@item.RecetaId" class="btn btn-primary">
-                        Imprimir Receta
-                    </a>
+                   <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <a asp-action="Edit" asp-route-id="@item.RecetaId" button type="button" class="btn btn-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.RecetaId" button type="button" class="btn btn-info">Detalle</a>
+                    <a asp-action="Delete" asp-route-id="@item.RecetaId" button type="button" class="btn btn-danger">Eliminar</a>
+                    <a asp-action="RecetaView" asp-route-id="@item.RecetaId" class="btn btn-primary">Imprimir Receta</a>
+                   </div>
             </td>
-              
-
         </tr>
 }
     </tbody>
