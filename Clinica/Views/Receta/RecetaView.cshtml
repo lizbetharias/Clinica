@@ -4,16 +4,19 @@
     ViewData["Title"] = "Gestión de Recetas";
 }
 
-<h1>Gestión de Recetas</h1>
+<h1>Clinica Cristo Crusificado</h1>
 
 
 <form asp-controller="Receta" asp-action="RecetaView">
 
   <div class="card" style="width: 18rem;">
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">@Model.Fecha</li>
-    <li class="list-group-item">@Model.Paciente.Nombre</li>
-    <li class="list-group-item">@Model.Paciente.Apellido</li>
+            
+      <li>Fecha: @Model.Fecha.ToString("dd/MM/yyyy HH:mm:ss")</li>
+            
+      <li>Nombre: @Model.Paciente.Nombre</li>
+            
+      <li>Apellido: @Model.Paciente.Apellido</li>
   </ul>
 </div>
 
@@ -34,9 +37,9 @@
                 @foreach (var receta in Model.RecetaMedicamento)
                 {
                     <tr>
-                        <td>@receta.Receta.RecetaId</td>
-                        <td>@receta.Receta.Fecha</td>
-                        <td>@receta.Receta.Paciente</td>
+                        <td>@receta.Medicamento.Nombre</td>
+                        <td>@receta.Cantidad</td>
+                        <td>@receta.Instrucciones</td>
                         <td>
                             <a class="btn btn-primary">
                                 Imprimir PDF

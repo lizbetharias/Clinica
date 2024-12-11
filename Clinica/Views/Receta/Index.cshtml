@@ -51,7 +51,7 @@
                     <a asp-action="Edit" asp-route-id="@item.RecetaId" button type="button" class="btn btn-success">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.RecetaId" button type="button" class="btn btn-info">Detalle</a>
                     <a asp-action="Delete" asp-route-id="@item.RecetaId" button type="button" class="btn btn-danger">Eliminar</a>
-                    <a asp-action="RecetaView" asp-route-id="@item.RecetaId" class="btn btn-primary">Imprimir Receta</a>
+                        <a asp-action="verpdf" asp-route-id="@item.RecetaId" class="btn btn-primary">Imprimir Receta</a>
                    </div>
             </td>
         </tr>

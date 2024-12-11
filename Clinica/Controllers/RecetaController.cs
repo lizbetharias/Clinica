@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Drawing.Printing;
 using System.Reflection.Metadata;
-using iText.Kernel.Pdf;
-using iText.Layout.Element;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
+
+using IronPdf;
+
 using Document = System.Reflection.Metadata.Document;
+
 
 namespace Clinica.Controllers
 {
@@ -28,6 +28,47 @@ namespace Clinica.Controllers
             _context = context;
             _viewEngine = viewEngine;
         }
+
+
+        public IActionResult verpdf(int id)
+        {
+            var receta = _context.Receta
+                .Include(r => r.Paciente)
+                .Include(r => r.Diagnostico)
+                .Include(r => r.RecetaMedicamento)
+                    .ThenInclude(rm => rm.Medicamento)
+                .FirstOrDefault(r => r.RecetaId == id);
+
+            if (receta == null)
+            {
+                return NotFound();
+            }
+
+            var renderer = new HtmlToPdf();
+            var htmlView = RenderRazorViewToString("RecetaView", receta);
+            var pdf = renderer.RenderHtmlAsPdf(htmlView);
+            return File(pdf.BinaryData, "application/pdf", $"Receta_{id}.pdf");
+        }
+
+        private string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = _viewEngine.FindView(ControllerContext, viewName, false);
+                var viewContext = new ViewContext(
+                    ControllerContext,
+                    viewResult.View,
+                    ViewData,
+                    TempData,
+                    sw,
+                    new HtmlHelperOptions()
+                );
+                viewResult.View.RenderAsync(viewContext);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
 
         // GET: Receta
         public async Task<IActionResult> Index()
