@@ -110,11 +110,14 @@ public partial class BDContext : DbContext
     {
         modelBuilder.Entity<RecetaMedicamento>(entity =>
         {
-            entity.HasKey(e => new { e.RecetaId, e.MedicamentoId }); // Define la clave compuesta
+            // Definir recetamedicamentoID como clave primaria
+            entity.HasKey(e => e.recetamedicamentoID);
+
+            // Configurar las relaciones con las tablas Receta y Medicamento
             entity.HasOne(e => e.Receta)
-           .WithMany(r => r.RecetaMedicamento)
-           .HasForeignKey(e => e.RecetaId)
-           .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(r => r.RecetaMedicamento)
+                .HasForeignKey(e => e.RecetaId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(e => e.Medicamento)
                 .WithMany(m => m.RecetaMedicamento)

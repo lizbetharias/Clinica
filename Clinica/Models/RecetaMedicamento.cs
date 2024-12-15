@@ -6,14 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Clinica.Models;
 
-[PrimaryKey("RecetaId", "MedicamentoId")]
 public partial class RecetaMedicamento
 {
     [Key]
+    [Column("recetamedicamentoID")]
+    public int recetamedicamentoID { get; set; }
+
     [Column("recetaID")]
     public int RecetaId { get; set; }
 
-    [Key]
     [Column("medicamentoID")]
     public int MedicamentoId { get; set; }
 

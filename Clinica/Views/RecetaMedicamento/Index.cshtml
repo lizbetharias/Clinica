@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.Receta.RecetaId)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-action="Edit" asp-route-id="@item.recetamedicamentoID" button type="button" class="btn btn-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.recetamedicamentoID" button type="button" class="btn btn-info">Detalle</a>
+                    <a asp-action="Delete" asp-route-id="@item.recetamedicamentoID" button type="button" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
 }

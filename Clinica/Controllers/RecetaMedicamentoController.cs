@@ -36,7 +36,7 @@ namespace Clinica.Controllers
             var recetaMedicamento = await _context.RecetaMedicamento
                 .Include(r => r.Medicamento)
                 .Include(r => r.Receta)
-                .FirstOrDefaultAsync(m => m.RecetaId == id);
+                .FirstOrDefaultAsync(m => m.recetamedicamentoID == id);
             if (recetaMedicamento == null)
             {
                 return NotFound();
@@ -60,8 +60,11 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RecetaId,MedicamentoId,Cantidad,Instrucciones")] RecetaMedicamento recetaMedicamento)
         {
+            ModelState.Remove("Medicamento");
+            ModelState.Remove("Receta");
             if (ModelState.IsValid)
             {
+                recetaMedicamento.recetamedicamentoID = 0; // Aseguramos que el ID no se establezca manualmente
                 _context.Add(recetaMedicamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -94,13 +97,15 @@ namespace Clinica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecetaId,MedicamentoId,Cantidad,Instrucciones")] RecetaMedicamento recetaMedicamento)
+        public async Task<IActionResult> Edit(int id, [Bind("recetamedicamentoID,RecetaId,MedicamentoId,Cantidad,Instrucciones")] RecetaMedicamento recetaMedicamento)
         {
-            if (id != recetaMedicamento.RecetaId)
+            if (id != recetaMedicamento.recetamedicamentoID)
             {
                 return NotFound();
             }
 
+            ModelState.Remove("Medicamento");
+            ModelState.Remove("Receta");
             if (ModelState.IsValid)
             {
                 try
@@ -110,7 +115,7 @@ namespace Clinica.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecetaMedicamentoExists(recetaMedicamento.RecetaId))
+                    if (!RecetaMedicamentoExists(recetaMedicamento.recetamedicamentoID))
                     {
                         return NotFound();
                     }
@@ -126,6 +131,8 @@ namespace Clinica.Controllers
             return View(recetaMedicamento);
         }
 
+
+
         // GET: RecetaMedicamento/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,7 +144,7 @@ namespace Clinica.Controllers
             var recetaMedicamento = await _context.RecetaMedicamento
                 .Include(r => r.Medicamento)
                 .Include(r => r.Receta)
-                .FirstOrDefaultAsync(m => m.RecetaId == id);
+                .FirstOrDefaultAsync(m => m.recetamedicamentoID == id);
             if (recetaMedicamento == null)
             {
                 return NotFound();
@@ -151,7 +158,7 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var recetaMedicamento = await _context.RecetaMedicamento.FindAsync(id);
+            var recetaMedicamento = await _context.RecetaMedicamento.FirstOrDefaultAsync(m => m.recetamedicamentoID == id); ;
             if (recetaMedicamento != null)
             {
                 _context.RecetaMedicamento.Remove(recetaMedicamento);
@@ -159,11 +166,12 @@ namespace Clinica.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
         }
 
         private bool RecetaMedicamentoExists(int id)
         {
-            return _context.RecetaMedicamento.Any(e => e.RecetaId == id);
+            return _context.RecetaMedicamento.Any(e => e.recetamedicamentoID == id);
         }
     }
 }
