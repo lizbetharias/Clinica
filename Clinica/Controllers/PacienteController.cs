@@ -53,7 +53,7 @@ namespace Clinica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email,Especialidad")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
@@ -138,17 +138,33 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var paciente = await _context.Paciente.FindAsync(id);
-            if (paciente != null)
+            try
             {
-                _context.Paciente.Remove(paciente);
-            }
+                var paciente = await _context.Paciente.FindAsync(id);
+                if (paciente != null)
+                {
+                    _context.Paciente.Remove(paciente);
+                    await _context.SaveChangesAsync();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (DbUpdateException)
+            {
+                // Captura la excepción específica de clave foránea
+                TempData["ErrorMessage"] = "No se puede eliminar este  Paciente ";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                // Captura cualquier otro error inesperado
+                TempData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar el diagnóstico.";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool PacienteExists(int id)
+            private bool PacienteExists(int id)
         {
             return _context.Paciente.Any(e => e.PacienteId == id);
         }

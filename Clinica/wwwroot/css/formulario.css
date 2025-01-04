@@ -1,0 +1,95 @@
+﻿body {
+    background-color: white; /* Fondo blanco now */
+    margin: 0;
+    font-family: 'Century Gothic', sans-serif;
+}
+
+h1, h4 {
+    color: #333333;
+    text-align: left;
+}
+
+.form-container {
+    display: flex;
+    justify-content: flex-start; /* Alinea el formulario a la izquierda */
+    padding: 40px;
+}
+
+.form-card {
+    background-color: #f4f8f9; /* Fondo celeste */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 450%;
+    max-width: 600px; /* Aumenta el ancho del formulario */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-input {
+    width: 100%; /* Input más largo */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/* Botón Regresar */
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+.text-center {
+    text-align: left;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+input[type="submit"].btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Igual a los botones */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Asegúrate que la fuente coincida */
+    text-align: center;
+    display: inline-block;
+    width: auto; /* Se ajusta automáticamente al contenido */
+}
+
+    input[type="submit"].btn-primary:hover {
+        opacity: 0.9; /* Igual que los botones */
+    }
+
+button, a.btn-save, a.btn-back, a.btn-danger {
+    text-decoration: none; /* Elimina el subrayado */
+}
+
+ button:hover, a.btn-save:hover, a.btn-back:hover, a.btn-danger:hover {
+        text-decoration: none; /* Evita que el subrayado aparezca en hover*/
+ }
+
+

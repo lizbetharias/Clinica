@@ -3,34 +3,33 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/CRUD.css">
+</head>
 <h1>Detalles</h1>
 
-<div>
+
     <h4>Examen</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tipo)
-        </dt>
-        <dd class = "col-sm-10">
+<div class="form-container">
+    <div class="form-group">
+        <label>Tipo:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Tipo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Resultados)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Resultados:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Resultados)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Paciente)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Paciente:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Paciente.PacienteId)
-        </dd>
-    </dl>
-</div>
-<div>
+        </div>
+    </div>
     <a asp-action="Edit" asp-route-id="@Model?.ExamenId" button type="button" class="btn btn-success">Editar</a>
     <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
 </div>

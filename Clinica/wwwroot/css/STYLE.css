@@ -1,0 +1,105 @@
+﻿body {
+    background-color: white;
+    font-family: 'Century Gothic', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin-top: 56px; /* Ajusta este valor dependiendo de la altura del navbar */
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/*.header {
+    text-align: center;
+    background-color: #fff3e0;
+    padding: 40px 20px;
+    border-radius: 15px;
+}*/
+.header {
+    background-image: url('https://scontent-mia3-1.xx.fbcdn.net/v/t39.30808-6/468395299_1319683622734539_3988470298095248660_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=UVEgr7BbP40Q7kNvgF8nWNH&_nc_zt=23&_nc_ht=scontent-mia3-1.xx&_nc_gid=AHdyjzZRP3Fsb2TRsa9ZTmS&oh=00_AYA3Kf67EKFnOwt29w_qjd5YWHESkLGuN0b0nbZKxQQKSg&oe=674AD2D5'); /* Ruta a tu imagen */
+    background-size: cover; /* Ajusta la imagen para cubrir todo el áAjustarea */
+    background-position: center; /* Centra la imagen */
+    height: 200px; /* Altura del banner (ajusta según tu diseño) */
+    width: 100%; /* Asegúrate de que ocupe todo el ancho */
+}
+
+
+.logo {
+    font-size: 48px;
+    color: #8d6e63;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #8d6e63;
+    margin-top: 10px;
+}
+
+.discover-btn {
+    background-color: #ff80ab;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.featured {
+    text-align: center;
+    margin-top: 50px;
+}
+
+    .featured h2 {
+        color: #8d6e63;
+        font-size: 32px;
+    }
+
+.desserts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dessert-item {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .dessert-item img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+.price {
+    color: #d32f2f;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.view-all-btn {
+    background-color: #ff80ab;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* Separación del botón */
+.btn-spacing {
+    margin-top: 15px; /* Espacio superior */
+}

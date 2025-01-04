@@ -132,20 +132,33 @@ namespace Clinica.Controllers
 
             return View(diagnostico);
         }
-
         // POST: Diagnostico/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var diagnostico = await _context.Diagnostico.FindAsync(id);
-            if (diagnostico != null)
+            try
             {
-                _context.Diagnostico.Remove(diagnostico);
+                var diagnostico = await _context.Diagnostico.FindAsync(id);
+                if (diagnostico != null)
+                {
+                    _context.Diagnostico.Remove(diagnostico);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (DbUpdateException)
+            {
+                // Captura la excepción específica de clave foránea
+                TempData["ErrorMessage"] = "No se puede eliminar este  Diagnóstico  pocee realciones  en otras tablas.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                // Captura cualquier otro error inesperado
+                TempData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar el diagnóstico.";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool DiagnosticoExists(int id)

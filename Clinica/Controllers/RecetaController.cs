@@ -10,11 +10,21 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Drawing.Printing;
 using System.Reflection.Metadata;
-
-using IronPdf;
-
 using Document = System.Reflection.Metadata.Document;
 
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
+
+using System.Security;
+using iText.Kernel.Font;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using iText.IO.Font.Constants;
+using iText.Kernel.Pdf.Canvas.Draw;
+using iText.Layout.Borders;
 
 namespace Clinica.Controllers
 {
@@ -28,44 +38,98 @@ namespace Clinica.Controllers
             _context = context;
             _viewEngine = viewEngine;
         }
-
-
-        public IActionResult verpdf(int id)
+        public IActionResult verPdf(int id)
         {
-            var receta = _context.Receta
-                .Include(r => r.Paciente)
-                .Include(r => r.Diagnostico)
+            try
+            {
+                // Consulta incluyendo las relaciones necesarias
+                var receta = _context.Receta
+               .Include(r => r.Paciente)
+               .Include(r => r.IdUsuarioNavigation)
+               .Include(r => r.RecetaMedicamento)
+                  .ThenInclude(rm => rm.Medicamento)
                 .Include(r => r.RecetaMedicamento)
-                    .ThenInclude(rm => rm.Medicamento)
-                .FirstOrDefault(r => r.RecetaId == id);
+               .FirstOrDefault(r => r.RecetaId == id);
 
-            if (receta == null)
-            {
-                return NotFound();
+
+                if (receta == null || receta.Paciente == null || receta.IdUsuarioNavigation == null ||
+                    receta.RecetaMedicamento == null || !receta.RecetaMedicamento.Any())
+                {
+                    return Content("Error: La receta o sus datos asociados no están disponibles.");
+                }
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    // Inicializar iText
+                    var writer = new PdfWriter(memoryStream, new WriterProperties().SetPdfVersion(PdfVersion.PDF_1_7));
+                    var pdf = new PdfDocument(writer);
+                    var document = new iText.Layout.Document(pdf);
+
+                    // Configurar márgenes
+                    document.SetMargins(50, 50, 50, 50);
+
+                    // Fuentes y estilos
+                    var regularFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA);
+                    var boldFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
+
+                    // Encabezado principal centrado
+                    document.Add(new iText.Layout.Element.Paragraph("Clínica \"Cristo Crucificado\"")
+                        .SetFont(boldFont)
+                        .SetFontSize(16)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                    document.Add(new iText.Layout.Element.Paragraph("3ra. Calle Ote. Ba. Las Mercedes Nahuizalco")
+                        .SetFontSize(12)
+                        .SetFont(regularFont)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                    document.Add(new iText.Layout.Element.Paragraph("RECETA MÉDICA")
+                        .SetFont(boldFont)
+                        .SetFontSize(14)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+
+                    // Línea divisoria
+                    document.Add(new iText.Layout.Element.LineSeparator(new iText.Kernel.Pdf.Canvas.Draw.SolidLine()));
+
+                    // Fecha centrada
+                    document.Add(new iText.Layout.Element.Paragraph($"Fecha: {receta.Fecha:dd/MM/yyyy HH:mm:ss}")
+                        .SetFontSize(12)
+                        .SetFont(regularFont));
+
+                    // Datos del paciente
+                    document.Add(new iText.Layout.Element.Paragraph("\nPaciente:")
+                        .SetFontSize(12)
+                        .SetFont(boldFont));
+                    document.Add(new iText.Layout.Element.Paragraph($"{receta.Paciente.Nombre} {receta.Paciente.Apellido}")
+                        .SetFont(regularFont));
+
+                    // Médico tratante
+                    document.Add(new iText.Layout.Element.Paragraph("\nMédico:")
+                        .SetFontSize(12)
+                        .SetFont(boldFont));
+                    document.Add(new iText.Layout.Element.Paragraph($"Dr. {receta.IdUsuarioNavigation.Nombre} {receta.IdUsuarioNavigation.Apellido}")
+                        .SetFont(regularFont));
+
+                    // Medicamentos
+                    document.Add(new iText.Layout.Element.Paragraph("\nMedicamentos:")
+                        .SetFontSize(12)
+                        .SetFont(boldFont));
+
+                    foreach (var medicamento in receta.RecetaMedicamento)
+                    {
+                        document.Add(new iText.Layout.Element.Paragraph($"- {medicamento.Medicamento.Nombre}")
+                            .SetFont(regularFont));
+
+                    }
+
+                    // Cerrar el documento
+                    document.Close();
+
+                    return File(memoryStream.ToArray(), "application/pdf", "RecetaMedica.pdf");
+                }
             }
-
-            var renderer = new HtmlToPdf();
-            var htmlView = RenderRazorViewToString("RecetaView", receta);
-            var pdf = renderer.RenderHtmlAsPdf(htmlView);
-            return File(pdf.BinaryData, "application/pdf", $"Receta_{id}.pdf");
-        }
-
-        private string RenderRazorViewToString(string viewName, object model)
-        {
-            ViewData.Model = model;
-            using (var sw = new StringWriter())
+            catch (Exception ex)
             {
-                var viewResult = _viewEngine.FindView(ControllerContext, viewName, false);
-                var viewContext = new ViewContext(
-                    ControllerContext,
-                    viewResult.View,
-                    ViewData,
-                    TempData,
-                    sw,
-                    new HtmlHelperOptions()
-                );
-                viewResult.View.RenderAsync(viewContext);
-                return sw.GetStringBuilder().ToString();
+                Console.WriteLine($"Error al generar el PDF: {ex.Message}");
+                return Content($"Error al generar el PDF: {ex.Message}");
             }
         }
 
@@ -234,14 +298,29 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var receta = await _context.Receta.FindAsync(id);
-            if (receta != null)
+            try
             {
-                _context.Receta.Remove(receta);
-            }
+                var receta = await _context.Receta.FindAsync(id);
+                if (receta != null)
+                {
+                    _context.Receta.Remove(receta);
+                    await _context.SaveChangesAsync();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Captura la excepción específica de clave foránea
+                TempData["ErrorMessage"] = "No se puede eliminar esta Receta porque está asociada con otros registros.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                // Captura cualquier otro error inesperado
+                TempData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar la Receta.";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool RecetaExists(int id)
@@ -249,63 +328,6 @@ namespace Clinica.Controllers
             return _context.Receta.Any(e => e.RecetaId == id);
         }
 
-
-
-        //Método RecetaView
-        public IActionResult RecetaView(int id)
-        {
-            var receta = _context.Receta
-                .Include(r => r.Paciente)
-                .Include(r => r.IdUsuarioNavigation)
-                .Include(r => r.Diagnostico)
-                .Include(r => r.RecetaMedicamento)
-                    .ThenInclude(rm => rm.Medicamento)
-                .FirstOrDefault(r => r.RecetaId == id);
-
-            if (receta == null)
-            {
-                return NotFound();
-            }
-
-            // Depuración del modelo
-            if (receta.Paciente == null)
-            {
-                Console.WriteLine("Paciente no encontrado");
-            }
-
-            if (receta.IdUsuarioNavigation == null)
-            {
-                Console.WriteLine("Médico no encontrado");
-            }
-
-            if (receta.Diagnostico == null)
-            {
-                Console.WriteLine("Diagnóstico no encontrado");
-            }
-
-            if (!receta.RecetaMedicamento.Any())
-            {
-                Console.WriteLine("No se encontraron medicamentos recetados");
-            }
-
-            return View(receta);
-        }
-
-        [HttpGet]
-        public JsonResult FiltrarMedicamentos(string term)
-        {
-            var medicamentosFiltrados = _context.Medicamento
-                .Where(p => p.Nombre.Contains(term))
-                .Select(p => new
-                {
-                    id = p.MedicamentoId,
-                    nombre = p.Nombre,
-                    precio = p.Dosis
-                })
-                .ToList();
-
-            return Json(medicamentosFiltrados);
-        }
     }
 }
 

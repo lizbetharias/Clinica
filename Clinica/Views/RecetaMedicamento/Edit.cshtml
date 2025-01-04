@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/CRUD.css">
+</head>
 <h1>Editar</h1>
 
 <h4>RecetaMedicamento</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="form-container">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!-- ID de receta medicamento (clave primaria, no editable) -->
@@ -41,7 +42,6 @@
                 <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
             </div>
         </form>
-    </div>
 </div>
 
 

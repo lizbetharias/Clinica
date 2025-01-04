@@ -3,40 +3,39 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/CRUD.css">
+</head>
 <h1>Eliminar</h1>
 
 <h3>Seguro que quiere eliminar esta Receta?</h3>
-<div>
+
     <h4>Receta</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd class = "col-sm-10">
+<div class="form-container">
+    <div class="form-group">
+        <label>Fecha:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Diagnostico)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Diagnóstico:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Diagnostico.DiagnosticoId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Usuario:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.IdUsuarioNavigation.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Paciente)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Paciente:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Paciente.PacienteId)
-        </dd>
-    </dl>
-    
+        </div>
+    </div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="RecetaId" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> 

@@ -5,7 +5,14 @@
 }
 
 <h1>Paciente</h1>
-
+<!-- Mostrar mensaje de error -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <p>
     <a asp-action="Create" button class="btn btn-primary">Crear Nuevo</a>
 </p>
@@ -19,16 +26,13 @@
                 @Html.DisplayNameFor(model => model.Apellido)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Especialidad)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FechaNacimiento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th></th>
         </tr>
@@ -42,17 +46,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Apellido)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especialidad)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaNacimiento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic outlined example">

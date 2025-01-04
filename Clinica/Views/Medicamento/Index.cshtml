@@ -5,7 +5,14 @@
 }
 
 <h1>Medicamento</h1>
-
+<!-- Mostrar mensaje de error -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <p>
     <a asp-action="Create" button class="btn btn-primary">Crear Nuevo</a>
 </p>

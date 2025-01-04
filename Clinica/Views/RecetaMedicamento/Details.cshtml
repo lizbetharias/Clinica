@@ -3,40 +3,38 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/CRUD.css">
+</head>
 <h1>Detalles</h1>
 
-<div>
     <h4>RecetaMedicamento</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cantidad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Instrucciones)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Instrucciones)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Medicamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Medicamento.MedicamentoId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Receta)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Receta.RecetaId)
-        </dd>
-    </dl>
-</div>
-<div>
+<div class="form-container">
+        <div class="form-group">
+            <label>Cantidad:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Cantidad)
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Instrucciones:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Instrucciones)
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Medicamento:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Medicamento.MedicamentoId)
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Receta:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Receta.RecetaId)
+            </div>
+        </div>
     <a asp-action="Edit" asp-route-id="@Model?.recetamedicamentoID" button type="button" class="btn btn-info">Editar</a>
     <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
 </div>

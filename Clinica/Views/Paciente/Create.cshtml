@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/CRUD.css">
+</head>
 <h1>Crear</h1>
 
 <h4>Paciente</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="form-container">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -42,12 +43,19 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Especialidad" class="control-label"></label>
+                <select asp-for="Especialidad" class="form-control">
+                    <option value="Consulta General">Consulta General</option>
+                    <option value="Fisioterapia">Fisioterapia</option>
+                </select>
+                <span asp-validation-for="Especialidad" class="text-danger"></span>
+            </div>
             <br />
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
-    </div>
 </div>
 <br />
 <div>

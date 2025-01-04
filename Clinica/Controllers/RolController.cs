@@ -138,14 +138,29 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rol = await _context.Rol.FindAsync(id);
-            if (rol != null)
+            try
             {
-                _context.Rol.Remove(rol);
-            }
+                var rol = await _context.Rol.FindAsync(id);
+                if (rol != null)
+                {
+                    _context.Rol.Remove(rol);
+                    await _context.SaveChangesAsync();
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Captura la excepción específica de clave foránea
+                TempData["ErrorMessage"] = "No se puede eliminar este Rol porque está asociado con otros registros.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                // Captura cualquier otro error inesperado
+                TempData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar el Rol.";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool RolExists(int id)

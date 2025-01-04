@@ -138,17 +138,32 @@ namespace Clinica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var medicamento = await _context.Medicamento.FindAsync(id);
-            if (medicamento != null)
+            try
             {
-                _context.Medicamento.Remove(medicamento);
+                var medicamento = await _context.Medicamento.FindAsync(id);
+                if (medicamento != null)
+                {
+                    _context.Medicamento.Remove(medicamento);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (DbUpdateException)
+            {
+                // Captura la excepción específica de clave foránea
+                TempData["ErrorMessage"] = "No se puede eliminar este  Medicamneto ";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                // Captura cualquier otro error inesperado
+                TempData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar el diagnóstico.";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool MedicamentoExists(int id)
+
+            private bool MedicamentoExists(int id)
         {
             return _context.Medicamento.Any(e => e.MedicamentoId == id);
         }

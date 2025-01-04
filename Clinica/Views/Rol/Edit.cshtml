@@ -1,32 +1,35 @@
 ﻿@model Clinica.Models.Rol
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Rol";
 }
+<link rel="stylesheet" href="~/css/formulario.css" />
 
 <h1>Editar</h1>
 
 <h4>Rol</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+<div class="form-container">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-card">
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <input asp-for="Nombre" class="form-input" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
+                <input type="submit" value="Guardar" class="btn-primary" />
+                <a asp-action="Index" class="btn-secondary">Regresar</a>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

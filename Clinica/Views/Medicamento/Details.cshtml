@@ -3,40 +3,38 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<head>
+    <link rel="stylesheet" href="~/css/CRUD.css">
+</head>
 <h1>Detalles</h1>
-
-<div>
     <h4>Medicamento</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
+<div class="form-container">
+    <div class="form-group">
+        <label>Nombre:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dosis)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Dosis:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Dosis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Frecuencia)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Frecuencia:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.Frecuencia)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ViaAdministracion)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Vía de Administración:</label>
+        <div class="form-value">
             @Html.DisplayFor(model => model.ViaAdministracion)
-        </dd>
-    </dl>
-</div>
-<div>
+        </div>
+    </div>
+
     <a asp-action="Edit" asp-route-id="@Model?.MedicamentoId" button type="button" class="btn btn-info">Editar</a>
     <a asp-action="Index" class="btn btn-secondary">Regresar</a>
 </div>
