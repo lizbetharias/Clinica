@@ -10,7 +10,7 @@
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
     </div>
 }
 <p>
@@ -25,9 +25,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Apellido)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Especialidad)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.FechaNacimiento)
             </th>
@@ -46,9 +44,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Apellido)
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Especialidad)
-                </td>
+              
             <td>
                 @Html.DisplayFor(modelItem => item.FechaNacimiento)
             </td>
@@ -66,3 +62,9 @@
 }
     </tbody>
 </table>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/form-validation.js"></script>
+}

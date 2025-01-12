@@ -35,9 +35,7 @@ public partial class Paciente
     [StringLength(50)]
     public string? Email { get; set; }
 
-    [Column("especialidad")]
-    [StringLength(20)]
-    public string? Especialidad { get; set; }
+  
 
     [InverseProperty("Paciente")]
     public virtual ICollection<Examen> Examen { get; set; } = new List<Examen>();

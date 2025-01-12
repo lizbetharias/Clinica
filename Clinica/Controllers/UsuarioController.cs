@@ -21,6 +21,8 @@ namespace Clinica.Controllers
     {
         private readonly BDContext _context;
 
+        public object Global { get; private set; }
+
         public UsuarioController(BDContext context)
         {
             _context = context;
@@ -294,6 +296,18 @@ namespace Clinica.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {
+            // Cerrar sesión del usuario actual
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Redirigir a la página de inicio de sesión
+            return RedirectToAction("Login", "Usuario");
+        }
+
 
         private bool UsuarioExists(int id)
         {

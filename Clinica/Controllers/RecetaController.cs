@@ -115,7 +115,7 @@ namespace Clinica.Controllers
 
                     foreach (var medicamento in receta.RecetaMedicamento)
                     {
-                        document.Add(new iText.Layout.Element.Paragraph($"- {medicamento.Medicamento.Nombre}")
+                        document.Add(new iText.Layout.Element.Paragraph($"- {medicamento.Medicamento.Nombre}" + " "+ medicamento.Instrucciones)
                             .SetFont(regularFont));
 
                     }
@@ -151,7 +151,6 @@ namespace Clinica.Controllers
 
             var receta = await _context.Receta
                 .Include(r => r.Diagnostico)
-                .Include(r => r.IdUsuarioNavigation)
                 .Include(r => r.Paciente)
                 .FirstOrDefaultAsync(m => m.RecetaId == id);
             if (receta == null)

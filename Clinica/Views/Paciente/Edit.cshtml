@@ -44,15 +44,8 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Especialidad" class="control-label"></label>
-                <select asp-for="Especialidad" class="form-control">
-                    <option value="Consulta General">Consulta General</option>
-                    <option value="Fisioterapia">Fisioterapia</option>
-                </select>
-                <span asp-validation-for="Especialidad" class="text-danger"></span>
-            </div>
-            <br />
+            
+            
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
                 <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>

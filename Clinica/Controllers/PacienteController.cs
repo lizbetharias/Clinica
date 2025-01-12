@@ -53,7 +53,7 @@ namespace Clinica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email,Especialidad")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
