@@ -20,14 +20,21 @@
         }
     });
 
-    // Validación de Teléfono
-    const telefonoInput = document.getElementById("Telefono");
-    telefonoInput.addEventListener("blur", function () {
-        const telefonoRegex = /^\d{8}$/; // Acepta exactamente 8 dígitos
-        if (!telefonoRegex.test(telefonoInput.value)) {
-            alert("Por favor, ingresa un número de teléfono válido (8 dígitos).");
-            telefonoInput.focus();
-        }
+    document.addEventListener("DOMContentLoaded", function () {
+        // Máscara para Teléfono
+        const telefonoInput = document.getElementById("Telefono");
+        telefonoInput.addEventListener("input", function () {
+            let value = telefonoInput.value.replace(/\D/g, ""); // Elimina todo lo que no sea dígito
+            value = value.slice(0, 10); // Limita a 10 caracteres
+
+            let formattedValue = value;
+            if (value.length >= 1) formattedValue = `(${value.slice(0, 3)}`;
+            if (value.length >= 4) formattedValue += `) ${value.slice(3, 6)}`;
+            if (value.length >= 7) formattedValue += `-${value.slice(6, 10)}`;
+
+            telefonoInput.value = formattedValue;
+        });
     });
+
 
 });
