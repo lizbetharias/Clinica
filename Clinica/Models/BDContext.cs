@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Clinica.Models;
 
 namespace Clinica.Models;
 
@@ -125,6 +126,10 @@ public partial class BDContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
+
+public DbSet<Clinica.Models.Especialidad> Especialidad { get; set; } = default!;
+
+public DbSet<Clinica.Models.Historial> Historial { get; set; } = default!;
 
 }
 

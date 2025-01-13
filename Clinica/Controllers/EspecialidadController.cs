@@ -9,22 +9,22 @@ using Clinica.Models;
 
 namespace Clinica.Controllers
 {
-    public class PacienteController : Controller
+    public class EspecialidadController : Controller
     {
         private readonly BDContext _context;
 
-        public PacienteController(BDContext context)
+        public EspecialidadController(BDContext context)
         {
             _context = context;
         }
 
-        // GET: Paciente
+        // GET: Especialidad
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Paciente.ToListAsync());
+            return View(await _context.Especialidad.ToListAsync());
         }
 
-        // GET: Paciente/Details/5
+        // GET: Especialidad/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,40 +32,39 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
-            var paciente = await _context.Paciente
-                .FirstOrDefaultAsync(m => m.PacienteId == id);
-            if (paciente == null)
+            var especialidad = await _context.Especialidad
+                .FirstOrDefaultAsync(m => m.EspecialidadId == id);
+            if (especialidad == null)
             {
                 return NotFound();
             }
 
-            return View(paciente);
+            return View(especialidad);
         }
 
-        // GET: Paciente/Create
+        // GET: Especialidad/Create
         public IActionResult Create()
         {
-            ViewBag.EspecialidadId = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre");
             return View();
         }
 
-        // POST: Paciente/Create
+        // POST: Especialidad/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email,EspecialidadId")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("EspecialidadId,Nombre,Detalle")] Especialidad especialidad)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paciente);
+                _context.Add(especialidad);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(paciente);
+            return View(especialidad);
         }
 
-        // GET: Paciente/Edit/5
+        // GET: Especialidad/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +72,22 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
-            var paciente = await _context.Paciente.FindAsync(id);
-            if (paciente == null)
+            var especialidad = await _context.Especialidad.FindAsync(id);
+            if (especialidad == null)
             {
                 return NotFound();
             }
-            return View(paciente);
+            return View(especialidad);
         }
 
-        // POST: Paciente/Edit/5
+        // POST: Especialidad/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email,EspecialidadId")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("EspecialidadId,Nombre,Detalle")] Especialidad especialidad)
         {
-            if (id != paciente.PacienteId)
+            if (id != especialidad.EspecialidadId)
             {
                 return NotFound();
             }
@@ -97,12 +96,12 @@ namespace Clinica.Controllers
             {
                 try
                 {
-                    _context.Update(paciente);
+                    _context.Update(especialidad);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PacienteExists(paciente.PacienteId))
+                    if (!EspecialidadExists(especialidad.EspecialidadId))
                     {
                         return NotFound();
                     }
@@ -113,10 +112,10 @@ namespace Clinica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(paciente);
+            return View(especialidad);
         }
 
-        // GET: Paciente/Delete/5
+        // GET: Especialidad/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,50 +123,34 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
-            var paciente = await _context.Paciente
-                .FirstOrDefaultAsync(m => m.PacienteId == id);
-            if (paciente == null)
+            var especialidad = await _context.Especialidad
+                .FirstOrDefaultAsync(m => m.EspecialidadId == id);
+            if (especialidad == null)
             {
                 return NotFound();
             }
 
-            return View(paciente);
+            return View(especialidad);
         }
 
-        // POST: Paciente/Delete/5
+        // POST: Especialidad/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            var especialidad = await _context.Especialidad.FindAsync(id);
+            if (especialidad != null)
             {
-                var paciente = await _context.Paciente.FindAsync(id);
-                if (paciente != null)
-                {
-                    _context.Paciente.Remove(paciente);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Especialidad.Remove(especialidad);
+            }
 
-                return RedirectToAction(nameof(Index));
-
-            }
-            catch (DbUpdateException)
-            {
-                // Captura la excepción específica de clave foránea
-                TempData["ErrorMessage"] = "No se puede eliminar este  Paciente ";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception)
-            {
-                // Captura cualquier otro error inesperado
-                TempData["ErrorMessage"] = "Ocurrió un error inesperado al intentar eliminar el diagnóstico.";
-                return RedirectToAction(nameof(Index));
-            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-            private bool PacienteExists(int id)
+        private bool EspecialidadExists(int id)
         {
-            return _context.Paciente.Any(e => e.PacienteId == id);
+            return _context.Especialidad.Any(e => e.EspecialidadId == id);
         }
     }
 }

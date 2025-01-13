@@ -25,7 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Apellido)
             </th>
-           
+            <th>
+                @Html.DisplayNameFor(model => model.EspecialidadId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Direccion) 
             </th>
@@ -47,7 +49,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Apellido)
             </td>
-                
+                <td>
+                    @Html.DisplayFor(modelItem => item.EspecialidadId)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaNacimiento)
             </td>
