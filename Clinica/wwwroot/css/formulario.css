@@ -92,4 +92,23 @@ button, a.btn-save, a.btn-back, a.btn-danger {
         text-decoration: none; /* Evita que el subrayado aparezca en hover*/
  }
 
+    a.btn-primary, button.btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+    }
+
+        a.btn-primary:hover, button.btn-primary:hover {
+            opacity: 0.9;
+        }
+
+
+
 

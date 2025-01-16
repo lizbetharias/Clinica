@@ -4,42 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
-<!DOCTYPE html>
-
-<html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
-<body>
 
-<div>
-    <h4>Historial</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Paciente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Paciente.PacienteId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Especialidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Especialidad.EspecialidadId)
-        </dd>
-    </dl>
+<h1>Detalle</h1>
+
+<h4>Historial</h4>
+<hr />
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-group">
+            <label>Fecha:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Fecha)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Paciente:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Paciente.Nombre) <!-- Mostrando el nombre del paciente -->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Especialidad:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Especialidad.Nombre) <!-- Mostrando el nombre de la especialidad -->
+            </div>
+        </div>
+
+        <a asp-action="Edit" asp-route-id="@Model?.HistorialId" class="btn btn-info">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.HistorialId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-</body>
-</html>

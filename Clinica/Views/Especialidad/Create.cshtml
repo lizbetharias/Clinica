@@ -5,13 +5,10 @@
 }
 
 <!DOCTYPE html>
-<link rel="stylesheet" href="~/css/CRUD.css">
+<link rel="stylesheet" href="~/css/formulario.css">
 <html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
+
+<h1>Crear</h1>
 
 <h4>Especialidad</h4>
 <hr />
@@ -19,6 +16,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-card">
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -32,16 +30,17 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-</body>
+
 </html>

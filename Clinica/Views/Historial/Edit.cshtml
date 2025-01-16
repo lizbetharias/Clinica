@@ -5,11 +5,11 @@
 }
 
 <!DOCTYPE html>
-<link rel="stylesheet" href="~/css/CRUD.css">
+<link rel="stylesheet" href="~/css/formulario.css">
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
+    <title>Editar</title>
 </head>
 <body>
 
@@ -20,6 +20,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="HistorialId" />
+                <div class="form-card">
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
                 <input asp-for="Fecha" class="form-control" />
@@ -38,13 +39,15 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+            </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Regresar</a>
-</div>
+    <br />
+    <div>
+        <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
+    </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

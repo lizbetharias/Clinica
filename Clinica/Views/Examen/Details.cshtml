@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 <head>
-    <link rel="stylesheet" href="~/css/CRUD.css">
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
 <h1>Detalles</h1>
 
@@ -12,6 +12,7 @@
     <h4>Examen</h4>
     <hr />
 <div class="form-container">
+    <div class="form-card">
     <div class="form-group">
         <label>Tipo:</label>
         <div class="form-value">
@@ -32,4 +33,5 @@
     </div>
     <a asp-action="Edit" asp-route-id="@Model?.ExamenId" button type="button" class="btn btn-success">Editar</a>
     <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
+    </div>
 </div>

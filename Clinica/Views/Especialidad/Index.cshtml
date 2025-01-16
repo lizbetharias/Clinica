@@ -6,14 +6,9 @@
 
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+<h1>Especialidad</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+        <a asp-action="Create" button class="btn btn-primary">Crear Nuevo</a>
 </p>
 <table class="table">
     <thead>
@@ -37,13 +32,11 @@
                 @Html.DisplayFor(modelItem => item.Detalle)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.EspecialidadId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EspecialidadId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EspecialidadId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.EspecialidadId" button type="button" class="btn btn-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.EspecialidadId" button type="button" class="btn btn-info">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.EspecialidadId" button type="button" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</body>
-</html>

@@ -3,11 +3,13 @@
 @{
     ViewData["Title"] = "Details";
 }
+<link rel="stylesheet" href="~/css/formulario.css">
 <h1>Detalle</h1>
 
     <h4>Paciente</h4>
     <hr />
 <div class="form-container">
+    <div class="form-card">
     <div class="form-group">
         <label>Nombre:</label>
         <div class="form-value">
@@ -54,4 +56,5 @@
 
     <a asp-action="Edit" asp-route-id="@Model?.PacienteId" button type="button" class="btn btn-info">Editar</a>
     <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
+    </div>
 </div>

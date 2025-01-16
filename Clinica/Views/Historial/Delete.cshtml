@@ -4,45 +4,41 @@
     ViewData["Title"] = "Delete";
 }
 
-<!DOCTYPE html>
-<link rel="stylesheet" href="~/css/CRUD.css">
-<html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Delete</title>
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
-<body>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Historial</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Paciente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Paciente.PacienteId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Especialidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Especialidad.EspecialidadId)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="HistorialId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+<h1>Eliminar</h1>
+
+<h4>¿Está seguro que desea eliminar este historial?</h4>
+
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-group">
+            <label>Fecha:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Fecha)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Paciente:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Paciente.Nombre)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Especialidad:</label>
+            <div class="form-value">
+                @Html.DisplayFor(model => model.Especialidad.Nombre)
+            </div>
+        </div>
+
+        <form asp-action="Delete" style="text-align: center;">
+            <input type="hidden" asp-for="HistorialId" />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </form>
+    </div>
 </div>
-</body>
-</html>

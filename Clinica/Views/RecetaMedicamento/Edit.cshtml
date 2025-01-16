@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 <head>
-    <link rel="stylesheet" href="~/css/CRUD.css">
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
 <h1>Editar</h1>
 
@@ -16,6 +16,7 @@
             <!-- ID de receta medicamento (clave primaria, no editable) -->
             <input type="hidden" asp-for="recetamedicamentoID" />
             <!-- Selección de receta -->
+        <div class="form-card">
             <div class="form-group">
                 <label asp-for="RecetaId" class="control-label">Receta</label>
                 <select asp-for="RecetaId" class="form-control" asp-items="ViewBag.RecetaId"></select>
@@ -41,7 +42,9 @@
                 <input type="submit" value="Guardar" class="btn btn-primary" />
                 <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
             </div>
+            </div>
         </form>
+        
 </div>
 
 

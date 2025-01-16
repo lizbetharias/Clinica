@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 <head>
-    <link rel="stylesheet" href="~/css/CRUD.css">
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
 <h1>Crear</h1>
 
@@ -15,6 +15,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!-- Selección de receta -->
+        <div class="form-card">
             <div class="form-group">
                 <label asp-for="RecetaId" class="control-label">Receta</label>
                 <select asp-for="RecetaId" class="form-control" asp-items="ViewBag.RecetaId"></select>
@@ -39,6 +40,7 @@
             <br />
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
             </div>
         </form>
 </div>

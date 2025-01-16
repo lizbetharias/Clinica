@@ -4,7 +4,7 @@
     ViewData["Title"] = "Delete";
 }
 <head>
-    <link rel="stylesheet" href="~/css/CRUD.css">
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
 <h1>Eliminar</h1>
 
@@ -13,6 +13,7 @@
     <h4>Examen</h4>
     <hr />
 <div class="form-container">
+    <div class="form-card">
     <div class="form-group">
         <label>Tipo:</label>
         <div class="form-value">
@@ -36,5 +37,7 @@
         <input type="hidden" asp-for="ExamenId" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> 
         <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
+        
     </form>
+    </div>
 </div>

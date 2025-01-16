@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 <head>
-    <link rel="stylesheet" href="~/css/CRUD.css">
+    <link rel="stylesheet" href="~/css/formulario.css">
 </head>
 <h1>Editar</h1>
 
@@ -14,6 +14,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RecetaId" />
+        <div class="form-card">
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
                 <input asp-for="Fecha" class="form-control" />
@@ -39,6 +40,7 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             <a asp-action="Index" button type="button" class="btn btn-secondary">Regresar</a>
             </div>
+            <div class="form-card">
         </form>
 </div>
 
