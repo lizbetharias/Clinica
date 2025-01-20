@@ -158,6 +158,9 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre");
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
             return View(receta);
         }
 
@@ -226,9 +229,9 @@ namespace Clinica.Controllers
             {
                 return NotFound();
             }
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId", receta.DiagnosticoId);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", receta.IdUsuario);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", receta.PacienteId);
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
             return View(receta);
         }
 
@@ -265,9 +268,9 @@ namespace Clinica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "DiagnosticoId", receta.DiagnosticoId);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", receta.IdUsuario);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", receta.PacienteId);
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
             return View(receta);
         }
 

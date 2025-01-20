@@ -47,7 +47,7 @@ namespace Clinica.Controllers
         // GET: Examen/Create
         public IActionResult Create()
         {
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId");
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace Clinica.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", examen.PacienteId);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", examen.PacienteId);
             return View(examen);
         }
 
@@ -117,7 +117,7 @@ namespace Clinica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", examen.PacienteId);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", examen.PacienteId);
             return View(examen);
         }
 

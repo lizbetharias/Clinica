@@ -1,5 +1,7 @@
 ﻿body {
-    background-color: white;
+    /* background: linear-gradient(to bottom, #E8F0FE, #FFFFFF);   ES UN DISEÑO BASTANTE INTERESANTE*/
+    background-image: url(https://i.pinimg.com/736x/a0/31/ce/a031ce15c1264caa679d458ea101ef66.jpg); /* Ruta a tu imagen */
+    background-size: cover; /* Ajusta la imagen para cubrir todo el áAjustarea */
     font-family: 'Century Gothic', sans-serif;
     margin: 0;
     padding: 0;

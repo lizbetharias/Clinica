@@ -177,7 +177,7 @@ namespace Clinica.Controllers
         public IActionResult Create()
 
         {
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id");
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre");
             return View();
         }
 
@@ -205,7 +205,7 @@ namespace Clinica.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id", usuario.IdRol);
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre", usuario.IdRol);
             return View(usuario);
         }
 
@@ -222,7 +222,7 @@ namespace Clinica.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id", usuario.IdRol);
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre", usuario.IdRol);
             return View(usuario);
         }
 
@@ -259,7 +259,7 @@ namespace Clinica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id", usuario.IdRol);
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre", usuario.IdRol);
             return View(usuario);
         }
 
