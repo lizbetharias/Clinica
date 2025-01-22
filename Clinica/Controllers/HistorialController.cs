@@ -21,6 +21,8 @@ namespace Clinica.Controllers
         // GET: Historial
         public async Task<IActionResult> Index()
         {
+            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre");
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
             var bDContext = _context.Historial.Include(h => h.Especialidad).Include(h => h.Paciente);
             return View(await bDContext.ToListAsync());
         }
@@ -48,8 +50,8 @@ namespace Clinica.Controllers
         // GET: Historial/Create
         public IActionResult Create()
         {
-            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "EspecialidadId");
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId");
+            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre");
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
             return View();
         }
 
@@ -66,8 +68,8 @@ namespace Clinica.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "EspecialidadId", historial.EspecialidadId);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", historial.PacienteId);
+            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre", historial.EspecialidadId);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", historial.PacienteId);
             return View(historial);
         }
 
@@ -84,8 +86,8 @@ namespace Clinica.Controllers
             {
                 return NotFound();
             }
-            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "EspecialidadId", historial.EspecialidadId);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", historial.PacienteId);
+            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre", historial.EspecialidadId);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", historial.PacienteId);
             return View(historial);
         }
 
@@ -121,8 +123,8 @@ namespace Clinica.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "EspecialidadId", historial.EspecialidadId);
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "PacienteId", historial.PacienteId);
+            ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre", historial.EspecialidadId);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", historial.PacienteId);
             return View(historial);
         }
 

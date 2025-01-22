@@ -45,7 +45,6 @@ namespace Clinica.Controllers
         // GET: Paciente/Create
         public IActionResult Create()
         {
-            ViewBag.EspecialidadId = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre");
             return View();
         }
 
@@ -54,7 +53,7 @@ namespace Clinica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email,EspecialidadId")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +85,7 @@ namespace Clinica.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email,EspecialidadId")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("PacienteId,Nombre,Apellido,FechaNacimiento,Direccion,Telefono,Email")] Paciente paciente)
         {
             if (id != paciente.PacienteId)
             {

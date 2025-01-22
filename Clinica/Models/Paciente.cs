@@ -20,8 +20,8 @@ public partial class Paciente
     [StringLength(50)]
     public string Apellido { get; set; } = null!;
 
-    [Column("especialidadID")]
-    public int? EspecialidadId { get; set; }
+    //[Column("especialidadID")]
+    //public int? EspecialidadId { get; set; }
 
     [Column("fechaNacimiento")]
     public DateOnly? FechaNacimiento { get; set; }
@@ -38,9 +38,9 @@ public partial class Paciente
     [StringLength(50)]
     public string? Email { get; set; }
 
-    [ForeignKey("EspecialidadId")]
-    [InverseProperty("Paciente")]
-    public virtual Especialidad? Especialidad{ get; set; }
+    //[ForeignKey("EspecialidadId")]
+    //[InverseProperty("Paciente")]
+    //public virtual Especialidad? Especialidad{ get; set; }
 
     [InverseProperty("Paciente")]
     public virtual ICollection<Examen> Examen { get; set; } = new List<Examen>();

@@ -8,11 +8,11 @@
 }
 
 main {
-    margin-top: 56px; /* Ajusta este valor dependiendo de la altura del navbar */
+    margin-top: 70px; /* Ajusta este valor dependiendo de la altura del navbar */
 }
 .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto;¿
     padding: 20px;
 }
 

@@ -23,7 +23,7 @@ public partial class Especialidad
     [InverseProperty("Especialidad")]
     public virtual ICollection<Historial> Historial { get; set; } = new List<Historial>();
 
-    [InverseProperty("Especialidad")]
-    public virtual ICollection<Paciente> Paciente { get; set; } = new List<Paciente>();
+    //[InverseProperty("Especialidad")]
+    //public virtual ICollection<Paciente> Paciente { get; set; } = new List<Paciente>();
 }
 

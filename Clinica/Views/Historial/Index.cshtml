@@ -3,19 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
+<h1>Asignar Especialidad</h1>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
 <p>
-        <a asp-action="Create">
-            <button class="btn btn-primary">Nuevo Historial</button>
-        </a>
+    <a asp-action="Create" button class="btn btn-primary">Asignación de Especialidad</a>
 </p>
 <table class="table">
     <thead>
@@ -39,10 +30,10 @@
                 @Html.DisplayFor(modelItem => item.Fecha)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Paciente.PacienteId)
+                @Html.DisplayFor(modelItem => item.Paciente.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Especialidad.EspecialidadId)
+                @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
             </td>
             <td>
                         <a asp-action="Edit" asp-route-id="@item.HistorialId" button type="button" class="btn btn-success">Editar</a>
@@ -53,5 +44,4 @@
 }
     </tbody>
 </table>
-</body>
-</html>
+
