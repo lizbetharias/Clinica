@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Resultados)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Paciente.PacienteId)
+                @Html.DisplayFor(modelItem => item.Paciente.Nombre)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.ExamenId" button type="button" class="btn btn-success">Editar</a>

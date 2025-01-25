@@ -113,9 +113,14 @@ namespace Clinica.Controllers
                         .SetFontSize(12)
                         .SetFont(boldFont));
 
+                    // Dosis
+                    document.Add(new iText.Layout.Element.Paragraph("\nDosis:")
+                        .SetFontSize(12)
+                        .SetFont(boldFont));
+
                     foreach (var medicamento in receta.RecetaMedicamento)
                     {
-                        document.Add(new iText.Layout.Element.Paragraph($"- {medicamento.Medicamento.Nombre}" + " "+ medicamento.Instrucciones)
+                        document.Add(new iText.Layout.Element.Paragraph($"- {medicamento.Medicamento.Nombre}" + " "+ medicamento.Medicamento.Dosis)
                             .SetFont(regularFont));
 
                     }
@@ -158,9 +163,9 @@ namespace Clinica.Controllers
                 return NotFound();
             }
 
-            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion");
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre");
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
             return View(receta);
         }
 
@@ -291,7 +296,9 @@ namespace Clinica.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["DiagnosticoId"] = new SelectList(_context.Diagnostico, "DiagnosticoId", "Descripcion", receta.DiagnosticoId);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", receta.IdUsuario);
+            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre", receta.PacienteId);
             return View(receta);
         }
 

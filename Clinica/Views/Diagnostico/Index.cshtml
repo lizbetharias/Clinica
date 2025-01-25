@@ -40,11 +40,10 @@
                 @Html.DisplayFor(modelItem => item.Observaciones)
             </td>
             <td>
-                   <div class="btn-group" role="group" aria-label="Basic outlined example">
+                  
                     <a asp-action="Edit" asp-route-id="@item.DiagnosticoId" button type="button" class="btn btn-success">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.DiagnosticoId" button type="button" class="btn btn-info">Detalles</a>
                     <a asp-action="Delete" asp-route-id="@item.DiagnosticoId" button type="button" class="btn btn-danger">Eliminar</a>
-                   </div>
             </td>
         </tr>
 }

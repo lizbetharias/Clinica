@@ -22,19 +22,19 @@
     <div class="form-group">
         <label>Diagnóstico:</label>
         <div class="form-value">
-            @Html.DisplayFor(model => model.Diagnostico.DiagnosticoId)
+            @Html.DisplayFor(model => model.Diagnostico.Descripcion)
         </div>
     </div>
     <div class="form-group">
         <label>Usuario:</label>
         <div class="form-value">
-            @Html.DisplayFor(model => model.IdUsuarioNavigation.Id)
+            @Html.DisplayFor(model => model.IdUsuarioNavigation.Nombre)
         </div>
     </div>
     <div class="form-group">
         <label>Paciente:</label>
         <div class="form-value">
-            @Html.DisplayFor(model => model.Paciente.PacienteId)
+            @Html.DisplayFor(model => model.Paciente.Nombre)
         </div>
     </div>
     <form asp-action="Delete">
