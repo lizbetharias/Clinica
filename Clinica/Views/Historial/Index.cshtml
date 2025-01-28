@@ -36,6 +36,7 @@
                 @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
             </td>
             <td>
+                    <a asp-controller="receta" asp-action="Create" asp-route-id="@item.Paciente" class="btn btn-warning">Receta</a>
                         <a asp-action="Edit" asp-route-id="@item.HistorialId" button type="button" class="btn btn-success">Editar</a>
                         <a asp-action="Details" asp-route-id="@item.HistorialId" button type="button" class="btn btn-info">Detalles</a>
                         <a asp-action="Delete" asp-route-id="@item.HistorialId" button type="button" class="btn btn-danger">Eliminar</a>

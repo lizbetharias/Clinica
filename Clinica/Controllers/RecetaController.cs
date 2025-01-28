@@ -191,6 +191,7 @@ namespace Clinica.Controllers
             ModelState.Remove("IdUsuarioNavigation");
             if (ModelState.IsValid)
             {
+                receta.IdUsuario = Models.Global.IdGlobal;
                 // Guardar la receta
                 _context.Add(receta);
                 await _context.SaveChangesAsync();

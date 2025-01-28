@@ -49,9 +49,10 @@ namespace Clinica.Controllers
                 var usuario = _context.Usuario
                                       .Include(u => u.IdRolNavigation) // Incluimos el rol del usuario en la consulta
                                       .FirstOrDefault(u => u.Login == login && u.Password == contraseñaEncriptada);
-
+              
                 if (usuario != null)
                 {
+                    Models.Global.IdGlobal = usuario.Id;
                     // Autenticación exitosa, crear claims de autenticación
                     var claims = new List<Claim>
             {
