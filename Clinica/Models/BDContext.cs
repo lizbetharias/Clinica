@@ -31,6 +31,9 @@ public partial class BDContext : DbContext
     public virtual DbSet<Rol> Rol { get; set; }
 
     public virtual DbSet<Usuario> Usuario { get; set; }
+    public virtual DbSet<Historial> Historial { get; set; }
+
+    public DbSet<Clinica.Models.Especialidad> Especialidad { get; set; } = default!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     { }
@@ -127,9 +130,9 @@ public partial class BDContext : DbContext
         });
     }
 
-public DbSet<Clinica.Models.Especialidad> Especialidad { get; set; } = default!;
 
-public DbSet<Clinica.Models.Historial> Historial { get; set; } = default!;
+
+
 
 }
 

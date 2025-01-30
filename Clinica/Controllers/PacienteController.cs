@@ -17,12 +17,23 @@ namespace Clinica.Controllers
         {
             _context = context;
         }
-
         // GET: Paciente
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Paciente.ToListAsync());
+            // Consulta inicial
+            var pacientes = from p in _context.Paciente
+                            select p;
+
+            // Aplicar filtro si se recibe un término de búsqueda
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                pacientes = pacientes.Where(p => p.Nombre.Contains(searchString) ||
+                                                 p.Apellido.Contains(searchString));
+            }
+
+            return View(await pacientes.ToListAsync());
         }
+
 
         // GET: Paciente/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -48,10 +48,24 @@ namespace Clinica.Controllers
         }
 
         // GET: Historial/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
             ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre");
-            ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
+            var paciente = _context.Paciente
+        .Where(p => p.PacienteId == id)
+        .Select(p => new { p.Nombre, p.Apellido })
+        .FirstOrDefault();
+
+            if (paciente == null)
+            {
+                return NotFound(); // Si no se encuentra el paciente, devolver error 404
+            }
+
+            // Enviar los datos al ViewData
+
+            ViewData["PacienteId"] = id;
+            ViewData["PacienteNombre"] = $"{paciente.Nombre} {paciente.Apellido}"; // Concatenar Nombre y Apellido
+
             return View();
         }
 

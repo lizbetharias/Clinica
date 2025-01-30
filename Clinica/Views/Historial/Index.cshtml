@@ -25,7 +25,19 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+
+
+            <tr>
+                <td>@item.Fecha.ToShortDateString()</td>
+                <td>@item.Paciente.Nombre</td>
+                <td>@item.Especialidad?.Nombre  "No asignado"</td>
+                <td>
+                    <a asp-action="Create" asp-route-PacienteId="@item.PacienteId" class="btn btn-primary">
+                        Asignar Especialidad
+                    </a>
+                </td>
+            </tr>
+       @*  <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Fecha)
             </td>
@@ -41,7 +53,7 @@
                         <a asp-action="Details" asp-route-id="@item.HistorialId" button type="button" class="btn btn-info">Detalles</a>
                         <a asp-action="Delete" asp-route-id="@item.HistorialId" button type="button" class="btn btn-danger">Eliminar</a>
             </td>
-        </tr>
+        </tr> *@
 }
     </tbody>
 </table>
