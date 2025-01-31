@@ -5,6 +5,13 @@
 }
 <h1>Asignar Especialidad</h1>
 
+<!-- Barra de búsqueda -->
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="searchString" class="form-control" placeholder="Buscar por fecha, nombre o especialidad..." />
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
 <p>
     <a asp-action="Create" button class="btn btn-primary">Asignación de Especialidad</a>
 </p>
@@ -29,8 +36,8 @@
 
             <tr>
                 <td>@item.Fecha.ToShortDateString()</td>
-                <td>@item.Paciente.Nombre</td>
-                <td>@item.Especialidad?.Nombre  "No asignado"</td>
+                <td>@item.Paciente?.Nombre</td>
+                <td>@item.Especialidad?.Nombre</td>
                 <td>
                     <a asp-action="Create" asp-route-PacienteId="@item.PacienteId" class="btn btn-primary">
                         Asignar Especialidad
@@ -53,7 +60,7 @@
                         <a asp-action="Details" asp-route-id="@item.HistorialId" button type="button" class="btn btn-info">Detalles</a>
                         <a asp-action="Delete" asp-route-id="@item.HistorialId" button type="button" class="btn btn-danger">Eliminar</a>
             </td>
-        </tr> *@
+        </tr>  *@
 }
     </tbody>
 </table>

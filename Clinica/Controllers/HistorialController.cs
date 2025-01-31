@@ -19,12 +19,29 @@ namespace Clinica.Controllers
         }
 
         // GET: Historial
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "EspecialidadId", "Nombre");
             ViewData["PacienteId"] = new SelectList(_context.Paciente, "PacienteId", "Nombre");
-            var bDContext = _context.Historial.Include(h => h.Especialidad).Include(h => h.Paciente);
-            return View(await bDContext.ToListAsync());
+
+            var historiales = _context.Historial
+              .Include(h => h.Especialidad)
+              .Include(h => h.Paciente)
+              .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                DateTime fechaBuscada;
+                bool esFecha = DateTime.TryParse(searchString, out fechaBuscada);
+
+                historiales = historiales.Where(h =>
+                    h.Paciente.Nombre.Contains(searchString) ||
+                    h.Especialidad.Nombre.Contains(searchString) ||
+                    (esFecha && h.Fecha.Date == fechaBuscada.Date)
+                );
+            }
+
+            return View(await historiales.ToListAsync());
         }
 
         // GET: Historial/Details/5

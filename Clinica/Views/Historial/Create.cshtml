@@ -11,17 +11,16 @@
 <h4>Asignación Especialidad</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+        <div class="form-container">
         <form asp-action="Create">
             <h2>Asignar Especialidad a @ViewData["PacienteNombre"]</h2>
-            <div class="form-group">
                 <div class="form-card">
-                <input name="PacienteId" value="@ViewData["PacienteId"]" />
-                <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
-                <span asp-validation-for="Fecha" class="text-danger"></span>
-            </div>
-           
+                <div class="form-group">
+                    <!-- Campo oculto para PacienteId -->
+                    <input type="hidden" asp-for="PacienteId" value="@ViewData["PacienteId"]" />
+                    <label asp-for="Fecha" class="control-label"></label>
+                    <input asp-for="Fecha" class="form-control" type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" readonly />
+                    <span asp-validation-for="Fecha" class="text-danger"></span>
             <div class="form-group">
                 <label asp-for="EspecialidadId" class="control-label"></label>
                 <select asp-for="EspecialidadId" class ="form-control" asp-items="ViewBag.EspecialidadId"></select>
@@ -30,7 +29,9 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
             </div>
+            </div>
         </form>
+        
     </div>
 </div>
     <br />

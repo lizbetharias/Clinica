@@ -140,7 +140,7 @@ namespace Clinica.Controllers
 
 
         // GET: Receta
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchPaciente)
         {
             var bDContext = _context.Receta.Include(r => r.Diagnostico).Include(r => r.IdUsuarioNavigation).Include(r => r.Paciente);
             return View(await bDContext.ToListAsync());
@@ -169,6 +169,7 @@ namespace Clinica.Controllers
             return View(receta);
         }
 
+        // GET: Receta/Creat
         // GET: Receta/Create
         public IActionResult Create()
         {
