@@ -29,7 +29,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.PacienteId)</th>
             <th>@Html.DisplayNameFor(model => model.Nombre)</th>
             <th>@Html.DisplayNameFor(model => model.Apellido)</th>
             <th>@Html.DisplayNameFor(model => model.Direccion)</th>
@@ -42,15 +41,15 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.PacienteId)</td>
                 <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
                 <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
                 <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
                 <td>@Html.DisplayFor(modelItem => item.FechaNacimiento)</td>
                 <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
                 <td>
-                    <a asp-controller="Historial" asp-action="Create" asp-route-id="@item.PacienteId" class="btn btn-warning">Asignar Especialidad</a>
+                    <a asp-controller="Historial" asp-action="Create" asp-route-id="@item.PacienteId" class="btn btn-warning" style="width: 102%">Asignar Especialidad</a>
                 </td>
+
                 <td>
                     <div class="btn-group" role="group">
                         <a asp-action="Edit" asp-route-id="@item.PacienteId" class="btn btn-success">Editar</a>
